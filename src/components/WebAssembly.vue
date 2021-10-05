@@ -3,6 +3,12 @@ import { ref } from 'vue';
 import init from '../wasm/test.wasm';
 import Go from '../wasm/wasm-exec.js';
 
+declare global {
+  interface Window {
+    calculateGo: (n: number) => void;
+  }
+}
+
 const go = new Go(window);
 const button = ref<HTMLButtonElement | null>(null);
 
@@ -10,7 +16,7 @@ init(go.importObject).then(async (exports) => {
   const instance = { exports };
   if (button.value) {
     button.value.addEventListener('click', () => {
-      (window as any).calculateGo(10000);
+      window.calculateGo(10000);
     });
   }
   await go.run(instance);
