@@ -3,12 +3,6 @@ import { ref } from 'vue';
 import init from '../wasm/test.wasm';
 import Go from '../wasm/wasm-exec.js';
 
-declare global {
-  interface Window {
-    calculateGo: (n: number) => void;
-  }
-}
-
 const go = new Go(window);
 const button = ref<HTMLButtonElement | null>(null);
 

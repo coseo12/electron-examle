@@ -6,3 +6,13 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
+
+type DarkMode = {
+  toggle(): boolean;
+  system(): void;
+};
+
+interface Window {
+  calculateGo: (n: number) => void;
+  darkMode: DarkMode;
+}
