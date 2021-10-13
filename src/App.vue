@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import WebAssembly from './components/WebAssembly.vue';
 import Theme from './components/Theme.vue';
+import Shortcuts from './components/Shortcuts.vue';
 </script>
 
 <template>
-  <WebAssembly></WebAssembly>
-  <Theme></Theme>
+  <WebAssembly />
+  <Theme />
+  <Shortcuts />
 </template>

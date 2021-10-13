@@ -1,4 +1,12 @@
-import { app, BrowserWindow, ipcMain, nativeTheme } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  nativeTheme,
+  Menu,
+  // MenuItem,
+  // globalShortcut,
+} from 'electron';
 import path from 'path';
 
 function createWindow() {
@@ -15,7 +23,27 @@ function createWindow() {
   } else {
     mainWindow.loadURL('http://localhost:3000');
   }
+  // Keyboard Shortcuts
+  // const menu = new Menu();
+  // menu.append(
+  //   new MenuItem({
+  //     label: 'Electron',
+  //     submenu: [
+  //       {
+  //         role: 'help',
+  //         accelerator:
+  //           process.platform === 'darwin' ? 'Alt+Cmd+I' : 'Alt+Shift+I',
+  //         click: () => {
+  //           console.log('Electron rocks!');
+  //         },
+  //       },
+  //     ],
+  //   })
+  // );
 
+  // Menu.setApplicationMenu(menu);
+
+  // Dark mode Test
   ipcMain.handle('dark-mode:toggle', () => {
     if (nativeTheme.shouldUseDarkColors) {
       nativeTheme.themeSource = 'light';
@@ -33,9 +61,44 @@ function createWindow() {
   // mainWindow.webContents.openDevTools()
 }
 
+// app
+//   .whenReady()
+//   .then(() => {
+//     globalShortcut.register('Alt+CommandOrControl+I', () => {
+//       console.log('Electron loves global shortcuts!');
+//     });
+//   })
+//   .then(() => {
+//     createWindow();
+//   });
+
+const dockMenu = Menu.buildFromTemplate([
+  {
+    label: 'New Window with Settings',
+    click() {
+      console.log('New Window');
+    },
+  },
+  {
+    label: 'New Window with Settings',
+    submenu: [
+      {
+        label: 'Basic',
+      },
+      {
+        label: 'Pro',
+      },
+    ],
+  },
+  {
+    label: 'New Command...',
+  },
+]);
 app.whenReady().then(() => {
   createWindow();
-
+  if (process.platform === 'darwin') {
+    app.dock.setMenu(dockMenu);
+  }
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
@@ -44,3 +107,7 @@ app.whenReady().then(() => {
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit();
 });
+
+// app.on('activate', function () {
+//   if (BrowserWindow.getAllWindows().length === 0) createWindow();
+// });
